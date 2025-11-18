@@ -1,19 +1,25 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './assets/components/Navbar';
-import Home from './assets/pages/Home';
-import Cursos from './assets/pages/Cursos';
-import Sobre from './assets/pages/Sobre';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
+
+const Home = lazy(() => import('./assets/pages/Home'));
+const Cursos = lazy(() => import('./assets/pages/Cursos'));
+const Sobre = lazy(() => import('./assets/pages/Sobre'));
+
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cursos" element={<Cursos />} />
-        <Route path="/sobre" element={<Sobre />} />
-      </Routes>
+      <Suspense fallback={<div>Carregando...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cursos" element={<Cursos />} />
+          <Route path="/sobre" element={<Sobre />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
